@@ -1,4 +1,15 @@
-from competition import app
+from telegram.ext import Updater, MessageHandler, Filters
+from competition import handlers
+from dotenv import load_dotenv
+import os
 
 
-app.run(debug=True)
+load_dotenv()
+BOT_TOKEN = os.environ.get('BOT_TOKEN')
+
+updater = Updater(BOT_TOKEN)
+
+updater.dispatcher.add_handler(MessageHandler(Filters.document, handlers.downloader))
+
+updater.start_polling()
+updater.idle()
