@@ -11,7 +11,5 @@ def start(update: Update, conext: CallbackContext):
         update.message.reply_html('Siz ro\'yxatdan o\'tgansiz\'!')
         return
 
-    db.add_or_update_temp_user(
-        chat_id=user.id,
-    )
+    db.add_or_update_temp_user(chat_id=user.id,)
 
