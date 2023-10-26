@@ -292,3 +292,6 @@ pip-selfcheck.json
 
 # End of https://www.toptal.com/developers/gitignore/api/venv,flask,python,visualstudiocode
 custom/*
+
+# nosql database
+temp.json
