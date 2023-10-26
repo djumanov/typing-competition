@@ -16,7 +16,7 @@ class DB:
             user = Document(
                 value={
                     "chat_id": chat_id,
-                    'step': 'chat_id'
+                    'step': 'first_name'
                 },
                 doc_id=chat_id
             )
@@ -25,10 +25,10 @@ class DB:
 
         if first_name is not None:
             user['first_name'] = first_name
-            user['step'] = 'first_name'
+            user['step'] = 'last_name'
         elif last_name is not None:
             user['last_name'] = last_name
-            user['step'] = 'last_name'
+            user['step'] = 'group'
         elif group is not None:
             user['group'] = group
             user['step'] = 'finnal'
@@ -51,6 +51,7 @@ class DB:
         user = self.get_temp_user(chat_id=chat_id)
         if user and user['step'] == 'finnal':
             self.users.insert(user)
+            print(chat_id)
             self.delete_temp_user(chat_id=chat_id)
             return True
         else:

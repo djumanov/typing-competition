@@ -1,4 +1,4 @@
-from telegram.ext import Updater, CommandHandler
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from settings import get_token
 import handlers
 
@@ -15,6 +15,10 @@ def main():
 
     # command handlers
     dp.add_handler(CommandHandler('start', handlers.start))
+
+    # message handlers
+    # dp.add_handler(MessageHandler(Filters.text, handlers.register))
+
 
     # start polling
     updater.start_polling()

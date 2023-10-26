@@ -4,8 +4,8 @@
             "chat_id": "1234",
             "step": "finnal",
             "first_name": "Ali",
-            "last_name": "Vali",
-            "group": "a"
+            "last_name": "Vaiyev",
+            "group": "Vaiyev"
         }
     },
     "users": {
@@ -13,8 +13,8 @@
             "chat_id": "1234",
             "step": "finnal",
             "first_name": "Ali",
-            "last_name": "Vali",
-            "group": "a"
+            "last_name": "Vaiyev",
+            "group": "Vaiyev"
         }
     }
 }
