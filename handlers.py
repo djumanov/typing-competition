@@ -1,7 +1,17 @@
 from telegram import Update
 from telegram.ext import CallbackContext
+from db import DB
+
+db = DB('database.json')
 
 
 def start(update: Update, conext: CallbackContext):
-    update.message.reply_html(f'Assalomu alaylum <b>{update.effective_user.full_name}</b>!')
-    update.message.reply_html('Ismingizni kiriting?')
+    user = update.effective_user
+    if db.is_user(chat_id=user.id):
+        update.message.reply_html('Siz ro\'yxatdan o\'tgansiz\'!')
+        return
+
+    db.add_or_update_temp_user(
+        chat_id=user.id,
+    )
+
