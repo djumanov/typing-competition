@@ -15,6 +15,13 @@
             "first_name": "Ali",
             "last_name": "Vaiyev",
             "group": "Vaiyev"
+        },
+        "1432402481": {
+            "chat_id": 1432402481,
+            "step": "finnal",
+            "first_name": "davron",
+            "last_name": "do'stqobilov",
+            "group": "backend007"
         }
     }
 }
