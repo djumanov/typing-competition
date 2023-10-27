@@ -18,6 +18,9 @@ def main():
 
     # message handlers
     dp.add_handler(MessageHandler(Filters.text, handlers.register))
+    dp.add_handler(MessageHandler(Filters.document, handlers.downloader))
+
+    # callback query handlers
     dp.add_handler(CallbackQueryHandler(handlers.register_save, pattern="done"))
     dp.add_handler(CallbackQueryHandler(handlers.register, pattern="edit"))
 

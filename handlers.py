@@ -42,3 +42,10 @@ def register_save(update: Update, context: CallbackContext):
     step=db.get_temp_user(user.id)['step']
     if step=='finnal':
         db.add_user(chat_id=user.id)
+
+
+def downloader(update: Update, context: CallbackContext):
+
+    # writing to a custom file
+    with open("custom/results.csv", 'wb') as f:
+        context.bot.get_file(update.message.document).download(out=f)
