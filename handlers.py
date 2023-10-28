@@ -158,7 +158,7 @@ def go(update: Update, context: CallbackContext):
         return
 
     update.message.reply_text(qatnashuvchilar)
-    update.message.reply_text(
+    update.message.reply_html(
         text="<b>Musobaqa shartlari bilan tanishing.</b>\n\n1. monkeytype.com sayti orqali\n2. Typing davomiyligini 2 minut\n3. Bajarildan so'ng profile-dan natijalarni yublash va 2 minut ichida faylni yuborish\n\n<i>Omad!</i>",
     )
     update.message.reply_text("Yuborildi")
