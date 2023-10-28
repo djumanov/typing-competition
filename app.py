@@ -8,7 +8,7 @@ from flask_cors import CORS, cross_origin
 
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app)
 
 bot = Bot(get_token())
 dp = Dispatcher(bot, None, workers=0)
