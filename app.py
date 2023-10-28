@@ -31,6 +31,7 @@ def webhook():
 
         # command handlers
         dp.add_handler(CommandHandler('start', handlers.start))
+        dp.add_handler(CommandHandler('go', handlers.go))
 
         # message handlers
         dp.add_handler(MessageHandler(Filters.text, handlers.register))

@@ -13,10 +13,11 @@ db = DB('database.json')
 def start(update: Update, conext: CallbackContext):
     user = update.effective_user
     if db.is_user(chat_id=user.id):
-        update.message.reply_html('Siz ro\'yxatdan o\'tgansiz\'!')
+        update.message.reply_html('Siz ro\'yxatdan o\'tgansiz!')
         return
 
-    update.message.reply_html('Assalomu alaykum ismingizni kiriting:')
+    update.message.reply_html(f'Assalomu alaykum <b>{user.full_name}</b>! <i>Typing bo\'yicha musoqabaqada ishtirok etish uchun ro\'yxatdan o\'ting.</i>')
+    update.message.reply_html(f'Ismingizni?')
 
     db.add_or_update_temp_user(chat_id=user.id)
 
@@ -25,7 +26,7 @@ def register(update: Update, context: CallbackContext):
     bot=context.bot
     user = update.effective_user
     if db.is_user(chat_id=user.id):
-        update.message.reply_html('Siz ro\'yxatdan o\'tgansiz\'!')
+        update.message.reply_html('Siz ro\'yxatdan o\'tgansiz!')
         return
     
     text = update.message.text
@@ -33,10 +34,10 @@ def register(update: Update, context: CallbackContext):
     step = temp_user['step']
 
     if step=='first_name':
-        update.message.reply_html('Familiyangizni kiriting:')
+        update.message.reply_html('Familiyangiz?')
         db.add_or_update_temp_user(chat_id=user.id,first_name=text)
     if step=='last_name':
-        update.message.reply_html('guruxni  kiriting:')
+        update.message.reply_html("Gruxingiz? (<i>agar yo'q bo'lsa, Yo'q deb yozing.</i>)")
         db.add_or_update_temp_user(chat_id=user.id,last_name=text)
     if step=='group':
         db.add_or_update_temp_user(chat_id=user.id,group=text)
@@ -45,19 +46,23 @@ def register(update: Update, context: CallbackContext):
         group=text
 
         button1 = InlineKeyboardButton(text = "Tasdiqlash", callback_data="done")
-        button2 = InlineKeyboardButton(text = "Inkon qilish", callback_data="edit")
+        button2 = InlineKeyboardButton(text = "Qayta o'tish", callback_data="edit")
         keyboard = InlineKeyboardMarkup([[button1],[button2]])
 
-        bot.sendMessage(chat_id=user.id, text=f"Ism: {ism}\nFamiliya: {familiya}\nGurux {group}\n ", reply_markup=keyboard)
+        bot.sendMessage(chat_id=user.id, text=f"<b>Ism:</b> {ism}\n<b>Familiya:</b> {familiya}\n<b>Gurux:</b> {group}\n\nMa'lumotlaringiz to'g'ri bo'lsa <b>Tasdiqlash</b> tugmasini bosing, ask holda <b>Qayta o'tish</b>.", reply_markup=keyboard)
 
     if step=="finnal":
         usr = db.get_temp_user(chat_id=user.id)
+
+        ism=usr["first_name"]
+        familiya=usr["last_name"]
+        group=usr["group"]
         
         button1 = InlineKeyboardButton(text = "Tasdiqlash", callback_data="done")
-        button2 = InlineKeyboardButton(text = "Inkon qilish", callback_data="edit")
+        button2 = InlineKeyboardButton(text = "Qayta o'tish", callback_data="edit")
         keyboard = InlineKeyboardMarkup([[button1],[button2]])
 
-        bot.sendMessage(chat_id=user.id, text=f"Ism: {usr['first_name']}\nFamiliya: {usr['last_name']}\nGurux {usr['group']}\n ", reply_markup=keyboard)
+        bot.sendMessage(chat_id=user.id, text=f"<b>Ism:</b> {ism}\n<b>Familiya:</b> {familiya}\n<b>Gurux:</b> {group}\n\nMa'lumotlaringiz to'g'ri bo'lsa <b>Tasdiqlash</b> tugmasini bosing, ask holda <b>Qayta o'tish</b>.", reply_markup=keyboard)
 
         
 def register_save(update: Update, context: CallbackContext):
@@ -74,7 +79,7 @@ def register_edit(update: Update, context: CallbackContext):
     
     db.clear_temp_user(chat_id=user.id)
     
-    update.callback_query.message.reply_html('Ismingizni kiriting:')
+    update.callback_query.message.reply_html('Ismingiz?')
 
     update.callback_query.delete_message()
 
@@ -94,7 +99,7 @@ def downloader(update: Update, context: CallbackContext):
 
         if not results:
             update.message.reply_html(
-                text=f"Siz boshqa file tashladingiz."
+                text=f"Siz boshqa file yubordingiz."
             )
             return 
 
@@ -117,7 +122,10 @@ def downloader(update: Update, context: CallbackContext):
             date=str(date)):
 
             update.message.reply_html(
-                text=f"Sizning natijangiz:\n\n<b>tezlik: </b>{wpm}\n<b>xatosizlik: </b>{acc}\n<b>doimiylik: </b>{consistency}\n\nIshtirokingiz uchun tashakkur!"
+                text=f"Sizning natijangiz:\n\n<b>tezlik: </b>{wpm}\n<b>xatosizlik: </b>{acc}%\n<b>doimiylik: </b>{consistency}%\n\nIshtirokingiz uchun tashakkur!"
+            )
+            update.message.reply_html(
+                text=f"Tez orada natijalarni e'lon qilamiz."
             )
         else:
             update.message.reply_html(
@@ -127,3 +135,33 @@ def downloader(update: Update, context: CallbackContext):
         update.message.reply_html(
             text=f"Ro'yxatdan o'tmagansiz."
         )
+
+
+def go(update: Update, context: CallbackContext):
+    
+    chat_ids = [user['chat_id'] for user in db.results.all()]
+    users = db.users.all()
+
+    qatnashuvchilar = ""
+
+    for user in users:
+        if user['chat_id'] not in chat_ids:
+            context.bot.send_message(
+                chat_id=user['chat_id'],
+                text="Musobaqa shartlari bilan tanishing.\n\n"
+                     "1. monkeytype.com sayti orqali"
+                     "2. Typing davomiyligini 2 minut"
+                     "3. Bajarildan so'ng profile-dan natijalarni yublash va 2 minut ichida faylni yuborish\n\n"
+                     "Omad!",
+                parse_mode='HTML'
+            )
+            qatnashuvchilar += user['first_name'] + " " + user['last_name'] + "\n"
+    update.message.reply_text(qatnashuvchilar)
+    update.message.reply_text(
+        text="Musobaqa shartlari bilan tanishing.\n\n"
+                "1. monkeytype.com sayti orqali"
+                "2. Typing davomiyligini 2 minut"
+                "3. Bajarildan so'ng profile-dan natijalarni yublash va 2 minut ichida faylni yuborish\n\n"
+                "Omad!",
+    )
+    update.message.reply_text("Yuborildi")

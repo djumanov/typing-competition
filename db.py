@@ -7,7 +7,6 @@ class DB:
         self.db = TinyDB(file_name, indent=4)
         self.temp_users = self.db.table('temp_users')
         self.users = self.db.table('users')
-        # self.stages = self.db.table('stages')
         self.results = self.db.table('results')
 
     def add_or_update_temp_user(self, chat_id, first_name=None, last_name=None, group=None):
@@ -69,18 +68,10 @@ class DB:
         else:
             return False
 
-    # def add_stage(self, doc_id, name):
-    #     Stage = Query()
-    #     stage_data = {
-    #         "name": name,
-    #     }
-
-    #     if not self.stages.get(Stage.name == name):
-    #         self.stages.insert(stage_data)
-
     def add_result(self, chat_id, first_name, last_name, group, wpm, accuracy, consistency, date):
         result_data = Document(
             value={
+                "chat_id": chat_id,
                 "firt_name": first_name,
                 "last_name": last_name,
                 "group": group,
