@@ -15,6 +15,7 @@ dp = Dispatcher(bot, None, workers=0)
 
 
 @app.route('/results/')
+@cross_origin()
 def get_results():
     return jsonify(db.get_all_results())
 
