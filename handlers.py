@@ -3,7 +3,7 @@ from telegram.ext import CallbackContext
 from db import DB
 import csv
 from datetime import datetime
-# import requests
+import requests
 
 
 db = DB('database.json')
@@ -104,33 +104,26 @@ def downloader(update: Update, context: CallbackContext):
 
     if db.is_user(chat_id=user.id):
         db_user = db.users.get(doc_id=user.id)
-        with open("custom/results.csv", 'wb') as f:
-            x = context.bot.get_file(update.message.document).download(out=f)
 
-            print("*"*100)
-            print(context.bot.get_file(update.message.document).file_path)
-            print("*"*100)
- 
-            c = get_result()
-            if c == False:
-                update.message.reply_html(
-                    text=f"Boshqa fayl tashaldi."
-                )
-                return
+        response = requests.get(context.bot.get_file(update.message.document))
 
-            wpm, acc, consistency, date = c
+        content = response.content.decode()
+        last_result = content.split()[1].split("|")
 
+        wpm = float(last_result[2])
+        acc = float(last_result[3])
+        consistency = float(last_result[5])
 
-            r = db.add_result(chat_id=user.id, first_name=db_user['first_name'], last_name=db_user['last_name'], group=db_user['group'], wpm=wpm, accuracy=acc, consistency=consistency, date=date)
+        r = db.add_result(chat_id=user.id, first_name=db_user['first_name'], last_name=db_user['last_name'], group=db_user['group'], wpm=wpm, accuracy=acc, consistency=consistency, date=date)
 
-            if r:
-                update.message.reply_html(
-                    text=f"Sizning natijangiz:\n\n<b>tezlik: </b>{wpm}\n<b>xatosizlik: </b>{acc}\n<b>doimiylik: </b>{consistency}\n\nIshtirokingiz uchun tashakkur!"
-                )
-            else:
-                update.message.reply_html(
-                    text=f"Ikkinchi urunish qabul qilinmaydi."
-                )
+        if r:
+            update.message.reply_html(
+                text=f"Sizning natijangiz:\n\n<b>tezlik: </b>{wpm}\n<b>xatosizlik: </b>{acc}\n<b>doimiylik: </b>{consistency}\n\nIshtirokingiz uchun tashakkur!"
+            )
+        else:
+            update.message.reply_html(
+                text=f"Ikkinchi urunish qabul qilinmaydi."
+            )
     else:
         update.message.reply_html(
             text=f"Ro'yxatdan o'tmagansiz."
