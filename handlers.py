@@ -10,26 +10,6 @@ from io import StringIO
 db = DB('database.json')
 
 
-def get_result(): 
-
-    with open('custom/results.csv') as csvfile:
-        print("-"*100)
-        print(csvfile.read())
-        print("-"*100)
-        dict_reader = csv.DictReader(csvfile, delimiter='|')
-
-        results = list(dict_reader)
-
-        if not results:
-            return False
-
-        last_result = results[0]
-
-        date = datetime.fromtimestamp(int(last_result['timestamp']) // 100)
-
-        return float(last_result['wpm']), float(last_result['acc']), float(last_result['consistency']), str(date)
-
-
 def start(update: Update, conext: CallbackContext):
     user = update.effective_user
     if db.is_user(chat_id=user.id):

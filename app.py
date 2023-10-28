@@ -4,9 +4,11 @@ from telegram import Bot, Update
 from telegram.ext import Dispatcher, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
 from settings import get_token
 import handlers
+from flask_cors import CORS, cross_origin
 
 
 app = Flask(__name__)
+CORS(app, support_credentials=True)
 
 bot = Bot(get_token())
 dp = Dispatcher(bot, None, workers=0)
