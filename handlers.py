@@ -3,7 +3,6 @@ from telegram.ext import CallbackContext
 from db import DB
 import csv
 from datetime import datetime
-import os
 
 
 db = DB('database.json')
@@ -12,7 +11,9 @@ db = DB('database.json')
 def get_result(): 
 
     with open('custom/results.csv') as csvfile:
+        print("-"*100)
         print(csvfile.read())
+        print("-"*100)
         dict_reader = csv.DictReader(csvfile, delimiter='|')
 
         results = list(dict_reader)
