@@ -108,7 +108,7 @@ def downloader(update: Update, context: CallbackContext):
             x = context.bot.get_file(update.message.document).download(out=f)
 
             print("*"*100)
-            print(context.bot.get_file(update.message.document).file_path())
+            print(context.bot.get_file(update.message.document).file_path)
             print("*"*100)
  
             c = get_result()
