@@ -17,7 +17,7 @@ dp = Dispatcher(bot, None, workers=0)
 @app.route('/results/', methods=['GET'])
 def get_results():
     
-    return jsonify(sorted(db.get_all_results(), key=lambda x: x['wpm']).reverse())
+    return jsonify(sorted(db.get_all_results(), key=lambda x: x['wpm'], reverse=True))
 
 
 @app.route('/webhook', methods=['GET', 'POST'])
