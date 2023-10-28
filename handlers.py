@@ -105,7 +105,11 @@ def downloader(update: Update, context: CallbackContext):
 
             
             c = get_result()
-            print(c)
+            if c == False:
+                update.message.reply_html(
+                    text=f"Boshqa fayl tashaldi."
+                )
+                return
 
             wpm, acc, consistency, date = c
 
