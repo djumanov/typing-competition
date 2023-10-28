@@ -39,10 +39,14 @@ def start(update: Update, conext: CallbackContext):
 def register(update: Update, context: CallbackContext):
     bot=context.bot
     user = update.effective_user
+    if db.is_user(chat_id=user.id):
+        update.message.reply_html('Siz ro\'yxatdan o\'tgansiz\'!')
+        return
+    
     text = update.message.text
-
     temp_user=db.get_temp_user(user.id)
-    step=db.get_temp_user(user.id)['step']
+    step = temp_user['step']
+    
     if step=='first_name':
         update.message.reply_html('Familiyangizni kiriting:')
         db.add_or_update_temp_user(chat_id=user.id,first_name=text)
