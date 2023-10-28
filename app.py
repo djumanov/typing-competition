@@ -14,7 +14,7 @@ bot = Bot(get_token())
 dp = Dispatcher(bot, None, workers=0)
 
 
-@app.route('/results/')
+@app.route('/results/', methods=['GET'])
 def get_results():
     return jsonify(db.get_all_results())
 
