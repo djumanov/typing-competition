@@ -114,6 +114,10 @@ def downloader(update: Update, context: CallbackContext):
 
         results = list(dict_reader)
 
+        print("\n\n\n\n\n\n")
+        print(results)
+        print("\n\n\n\n\n\n")
+
         if not results:
             update.message.reply_html(
                 text=f"Siz boshqa file tashladingiz."
