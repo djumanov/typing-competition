@@ -107,16 +107,14 @@ def downloader(update: Update, context: CallbackContext):
         db_user = db.users.get(doc_id=user.id)
 
         response = requests.get(context.bot.get_file(update.message.document).file_path)
-
+        print(response.status_code)
+        
         csv_content = response.content.decode()
+        print(csv_content)
 
         csv_data = list(csv.DictReader(StringIO(csv_content), delimiter='|'))
 
         results = list(dict_reader)
-
-        print("\n\n\n\n\n\n")
-        print(results)
-        print("\n\n\n\n\n\n")
 
         if not results:
             update.message.reply_html(
