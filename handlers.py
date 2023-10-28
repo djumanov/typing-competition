@@ -12,7 +12,7 @@ db = DB('database.json')
 def get_result(): 
 
     with open('custom/results.csv') as csvfile:
-        path = os.getcwd()
+        print(csvfile.read())
         dict_reader = csv.DictReader(csvfile, delimiter='|')
 
         results = list(dict_reader)
