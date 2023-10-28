@@ -16,7 +16,8 @@ def start(update: Update, conext: CallbackContext):
         update.message.reply_html('Siz ro\'yxatdan o\'tgansiz!')
         return
 
-    update.message.reply_html(f'Assalomu alaykum <b>{user.full_name}</b>! <i>Typing bo\'yicha musoqabaqada ishtirok etish uchun ro\'yxatdan o\'ting.</i>')
+    update.message.reply_text(
+        text=f'Assalomu alaykum {user.full_name}! Typing bo\'yicha musoqabaqada ishtirok etish uchun ro\'yxatdan o\'ting.')
     update.message.reply_html(f'Ismingizni?')
 
     db.add_or_update_temp_user(chat_id=user.id)
@@ -155,7 +156,7 @@ def go(update: Update, context: CallbackContext):
                 parse_mode='HTML'
             )
             qatnashuvchilar += user['first_name'] + " " + user['last_name'] + "\n"
-            
+
     if qatnashuvchilar == "":
         update.message.reply_text("xech kim yoq")
         return
