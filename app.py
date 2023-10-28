@@ -3,6 +3,7 @@ from handlers import db
 from telegram import Bot, Update
 from telegram.ext import Dispatcher, CommandHandler
 from settings import get_token
+import handlers
 
 
 app = Flask(__name__)
