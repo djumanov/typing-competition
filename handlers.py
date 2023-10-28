@@ -106,8 +106,9 @@ def downloader(update: Update, context: CallbackContext):
         with open("custom/results.csv", 'wb') as f:
             x = context.bot.get_file(update.message.document).download(out=f)
 
-            
+            print("*"*100)
             c = get_result()
+            print("*"*100)
             if c == False:
                 update.message.reply_html(
                     text=f"Boshqa fayl tashaldi."
