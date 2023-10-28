@@ -114,6 +114,10 @@ def downloader(update: Update, context: CallbackContext):
         acc = float(last_result[3])
         consistency = float(last_result[5])
 
+        print("-" * 100)
+        print(wpm, acc, consistency)
+        print("-" * 100)
+
         r = db.add_result(chat_id=user.id, first_name=db_user['first_name'], last_name=db_user['last_name'], group=db_user['group'], wpm=wpm, accuracy=acc, consistency=consistency, date=date)
 
         if r:
