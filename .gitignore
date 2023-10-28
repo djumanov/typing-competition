@@ -295,3 +295,5 @@ custom/*
 
 # nosql database
 temp.json
+
+database.json
