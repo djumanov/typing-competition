@@ -148,7 +148,7 @@ def go(update: Update, context: CallbackContext):
         if user['chat_id'] not in chat_ids:
             context.bot.send_message(
                 chat_id=user['chat_id'],
-                text="<b>Musobaqa shartlari bilan tanishing.</b>\n\n1. monkeytype.com sayti orqali\n2. Typing davomiyligini 2 minut\n3. Bajarildan so'ng profile-dan natijalarni yublash va 2 minut ichida faylni yuborish\n\nOmad!",
+                text="<b>Musobaqa shartlari bilan tanishing.</b>\n\n\n1. monkeytype.com sayti orqali\n\n2. Typing davomiyligini 2 minut\n\n3. Bajarildan so'ng profile-dan natijalarni yublash va 2 minut ichida faylni yuborish\n\n\nOmad!",
                 parse_mode='HTML'
             )
             qatnashuvchilar += user['first_name'] + " " + user['last_name'] + "\n"
