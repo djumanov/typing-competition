@@ -46,7 +46,7 @@ def register(update: Update, context: CallbackContext):
     text = update.message.text
     temp_user=db.get_temp_user(user.id)
     step = temp_user['step']
-    
+
     if step=='first_name':
         update.message.reply_html('Familiyangizni kiriting:')
         db.add_or_update_temp_user(chat_id=user.id,first_name=text)
@@ -103,7 +103,11 @@ def downloader(update: Update, context: CallbackContext):
         with open("custom/results.csv", 'wb') as f:
             x = context.bot.get_file(update.message.document).download(out=f)
 
-            wpm, acc, consistency, date = get_result()
+            
+            c = get_result()
+            print(c)
+
+            wpm, acc, consistency, date = c
 
 
             r = db.add_result(chat_id=user.id, first_name=db_user['first_name'], last_name=db_user['last_name'], group=db_user['group'], wpm=wpm, accuracy=acc, consistency=consistency, date=date)
