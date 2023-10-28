@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 from handlers import db
 from telegram import Bot, Update
-from telegram.ext import Dispatcher, CommandHandler
+from telegram.ext import Dispatcher, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
 from settings import get_token
 import handlers
 
