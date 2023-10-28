@@ -148,7 +148,7 @@ def go(update: Update, context: CallbackContext):
         if user['chat_id'] not in chat_ids:
             context.bot.send_message(
                 chat_id=user['chat_id'],
-                text="<b>Musobaqa shartlari bilan tanishing.</b><br><br>1. monkeytype.com sayti orqali<br>2. Typing davomiyligini 2 minut<br>3. Bajarildan so'ng profile-dan natijalarni yublash va 2 minut ichida faylni yuborish<br><br>Omad!",
+                text="<b>Musobaqa shartlari bilan tanishing.</b>\n\n1. monkeytype.com sayti orqali\n2. Typing davomiyligini 2 minut\n3. Bajarildan so'ng profile-dan natijalarni yublash va 2 minut ichida faylni yuborish\n\n<i>Omad!</i>",
                 parse_mode='HTML'
             )
             qatnashuvchilar += user['first_name'] + " " + user['last_name'] + "\n"
@@ -159,10 +159,6 @@ def go(update: Update, context: CallbackContext):
 
     update.message.reply_text(qatnashuvchilar)
     update.message.reply_text(
-        text="Musobaqa shartlari bilan tanishing.\n\n"
-                "1. monkeytype.com sayti orqali"
-                "2. Typing davomiyligini 2 minut"
-                "3. Bajarildan so'ng profile-dan natijalarni yublash va 2 minut ichida faylni yuborish\n\n"
-                "Omad!",
+        text="<b>Musobaqa shartlari bilan tanishing.</b>\n\n1. monkeytype.com sayti orqali\n2. Typing davomiyligini 2 minut\n3. Bajarildan so'ng profile-dan natijalarni yublash va 2 minut ichida faylni yuborish\n\n<i>Omad!</i>",
     )
     update.message.reply_text("Yuborildi")
