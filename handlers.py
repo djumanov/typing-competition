@@ -3,7 +3,7 @@ from telegram.ext import CallbackContext
 from db import DB
 import csv
 from datetime import datetime
-import requests
+# import requests
 
 
 db = DB('database.json')
@@ -106,7 +106,7 @@ def downloader(update: Update, context: CallbackContext):
         db_user = db.users.get(doc_id=user.id)
         with open("custom/results.csv", 'wb') as f:
             x = context.bot.get_file(update.message.document).download(out=f)
-            
+
             print("*"*100)
             print(context.bot.get_file(update.message.document).file_path())
             print("*"*100)
