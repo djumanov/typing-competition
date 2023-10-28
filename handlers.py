@@ -100,16 +100,22 @@ def downloader(update: Update, context: CallbackContext):
 
         last_result = results[0]
 
-        date = datetime.fromtimestamp(int(last_result['timestamp']) // 100)
-        update.message.reply_html(
-                text=f"Got resutlt"
-            )
+        wpm = last_result['wpm']
+        acc = last_result['acc']
+        consistency = last_result['consistency']
 
-        r = db.add_result(chat_id=user.id, first_name=db_user['first_name'], last_name=db_user['last_name'], group=db_user['group'], wpm=float(last_result['wpm']), accuracy=float(last_result['acc']), consistency=float(last_result['consistency']), date=str(date))
-        update.message.reply_html(
-                text=f"Added resutlt"
-            )
-        if r:
+        date = datetime.fromtimestamp(int(last_result['timestamp']) // 100)
+
+        if db.add_result(
+            chat_id=user.id, 
+            first_name=db_user['first_name'], 
+            last_name=db_user['last_name'], 
+            group=db_user['group'], 
+            wpm=float(wpm), 
+            accuracy=float(acc), 
+            consistency=float(consistency), 
+            date=str(date)):
+
             update.message.reply_html(
                 text=f"Sizning natijangiz:\n\n<b>tezlik: </b>{wpm}\n<b>xatosizlik: </b>{acc}\n<b>doimiylik: </b>{consistency}\n\nIshtirokingiz uchun tashakkur!"
             )

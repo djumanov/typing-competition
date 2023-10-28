@@ -78,21 +78,21 @@ class DB:
     #     if not self.stages.get(Stage.name == name):
     #         self.stages.insert(stage_data)
 
-    def add_result(self, first_name, last_name, group, chat_id, wpm, accuracy, consistency, date):
-        Result = Query()
-        result_data = {
-            "chat_id": chat_id,
-            "firt_name": first_name,
-            "last_name": last_name,
-            "group": group,
-            "wpm": wpm,
-            "accuracy": accuracy,
-            "consistency": consistency,
-            "date": date,
-        }
+    def add_result(self, chat_id, first_name, last_name, group, wpm, accuracy, consistency, date):
+        result_data = Document(
+            value={
+                "firt_name": first_name,
+                "last_name": last_name,
+                "group": group,
+                "wpm": wpm,
+                "accuracy": accuracy,
+                "consistency": consistency,
+                "date": date,
+            },
+            doc_id=chat_id
+        )
 
-        existing_result = self.results.get(Result.chat_id == chat_id)
-        if not existing_result:
+        if not self.results.contains(doc_id=chat_id):
             self.results.insert(result_data)
             return True
 
