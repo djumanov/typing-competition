@@ -1,27 +1,21 @@
 {
-    "temp_users": {
-        "1234": {
-            "chat_id": "1234",
+    "temp_users": {},
+    "users": {
+        "1258594598": {
+            "chat_id": 1258594598,
             "step": "finnal",
-            "first_name": "Ali",
-            "last_name": "Vaiyev",
-            "group": "Vaiyev"
+            "first_name": "Diyorbek",
+            "last_name": "Jumanov",
+            "group": "A"
         }
     },
-    "users": {
-        "1234": {
-            "chat_id": "1234",
-            "step": "finnal",
-            "first_name": "Ali",
-            "last_name": "Vaiyev",
-            "group": "Vaiyev"
-        },
-        "1432402481": {
-            "chat_id": 1432402481,
-            "step": "finnal",
-            "first_name": "davron",
-            "last_name": "do'stqobilov",
-            "group": "backend007"
+    "results": {
+        "1": {
+            "chat_id": 1258594598,
+            "wpm": "45.2",
+            "accuracy": "91.94",
+            "consistency": "60.64",
+            "date": "2508-02-23 03:33:30"
         }
     }
 }

@@ -22,7 +22,7 @@ def main():
 
     # callback query handlers
     dp.add_handler(CallbackQueryHandler(handlers.register_save, pattern="done"))
-    dp.add_handler(CallbackQueryHandler(handlers.register, pattern="edit"))
+    dp.add_handler(CallbackQueryHandler(handlers.register_edit, pattern="edit"))
 
     # start polling
     updater.start_polling()
