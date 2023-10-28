@@ -23,7 +23,6 @@ def start(update: Update, conext: CallbackContext):
 
 
 def register(update: Update, context: CallbackContext):
-    bot=context.bot
     user = update.effective_user
     if db.is_user(chat_id=user.id):
         update.message.reply_html('Siz ro\'yxatdan o\'tgansiz!')
@@ -49,7 +48,7 @@ def register(update: Update, context: CallbackContext):
         button2 = InlineKeyboardButton(text = "Qayta o'tish", callback_data="edit")
         keyboard = InlineKeyboardMarkup([[button1],[button2]])
 
-        bot.sendMessage(chat_id=user.id, text=f"<b>Ism:</b> {ism}\n<b>Familiya:</b> {familiya}\n<b>Gurux:</b> {group}\n\nMa'lumotlaringiz to'g'ri bo'lsa <b>Tasdiqlash</b> tugmasini bosing, ask holda <b>Qayta o'tish</b>.", reply_markup=keyboard)
+        update.message.reply_html(text=f"<b>Ism:</b> {ism}\n<b>Familiya:</b> {familiya}\n<b>Gurux:</b> {group}\n\nMa'lumotlaringiz to'g'ri bo'lsa <b>Tasdiqlash</b> tugmasini bosing, ask holda <b>Qayta o'tish</b>.", reply_markup=keyboard)
 
     if step=="finnal":
         usr = db.get_temp_user(chat_id=user.id)
@@ -62,7 +61,7 @@ def register(update: Update, context: CallbackContext):
         button2 = InlineKeyboardButton(text = "Qayta o'tish", callback_data="edit")
         keyboard = InlineKeyboardMarkup([[button1],[button2]])
 
-        bot.sendMessage(chat_id=user.id, text=f"<b>Ism:</b> {ism}\n<b>Familiya:</b> {familiya}\n<b>Gurux:</b> {group}\n\nMa'lumotlaringiz to'g'ri bo'lsa <b>Tasdiqlash</b> tugmasini bosing, ask holda <b>Qayta o'tish</b>.", reply_markup=keyboard)
+        update.message.reply_html(text=f"<b>Ism:</b> {ism}\n<b>Familiya:</b> {familiya}\n<b>Gurux:</b> {group}\n\nMa'lumotlaringiz to'g'ri bo'lsa <b>Tasdiqlash</b> tugmasini bosing, ask holda <b>Qayta o'tish</b>.", reply_markup=keyboard)
 
         
 def register_save(update: Update, context: CallbackContext):
@@ -149,13 +148,18 @@ def go(update: Update, context: CallbackContext):
             context.bot.send_message(
                 chat_id=user['chat_id'],
                 text="Musobaqa shartlari bilan tanishing.\n\n"
-                     "1. monkeytype.com sayti orqali"
-                     "2. Typing davomiyligini 2 minut"
+                     "1. monkeytype.com sayti orqali\n"
+                     "2. Typing davomiyligini 2 minut\n"
                      "3. Bajarildan so'ng profile-dan natijalarni yublash va 2 minut ichida faylni yuborish\n\n"
                      "Omad!",
                 parse_mode='HTML'
             )
             qatnashuvchilar += user['first_name'] + " " + user['last_name'] + "\n"
+            
+    if qatnashuvchilar == "":
+        update.message.reply_text("xech kim yoq")
+        return
+
     update.message.reply_text(qatnashuvchilar)
     update.message.reply_text(
         text="Musobaqa shartlari bilan tanishing.\n\n"
