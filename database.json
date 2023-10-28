@@ -12,9 +12,12 @@
     "results": {
         "1": {
             "chat_id": 1258594598,
-            "wpm": "45.2",
-            "accuracy": "91.94",
-            "consistency": "60.64",
+            "firt_name": "Diyorbek",
+            "last_name": "Jumanov",
+            "group": "A",
+            "wpm": 45.2,
+            "accuracy": 91.94,
+            "consistency": 60.64,
             "date": "2508-02-23 03:33:30"
         }
     }

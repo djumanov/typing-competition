@@ -78,11 +78,13 @@ class DB:
     #     if not self.stages.get(Stage.name == name):
     #         self.stages.insert(stage_data)
 
-    def add_result(self, chat_id, wpm, accuracy, consistency, date):
+    def add_result(self, first_name, last_name, group, chat_id, wpm, accuracy, consistency, date):
         Result = Query()
         result_data = {
             "chat_id": chat_id,
-            # "stage": stage,
+            "firt_name": first_name,
+            "last_name": last_name,
+            "group": group,
             "wpm": wpm,
             "accuracy": accuracy,
             "consistency": consistency,
@@ -95,3 +97,6 @@ class DB:
             return True
 
         return False
+
+    def get_all_results(self):
+        return self.results.all()

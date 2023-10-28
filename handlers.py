@@ -22,7 +22,7 @@ def get_result():
 
         date = datetime.fromtimestamp(int(last_result['timestamp']) // 100)
 
-        return last_result['wpm'], last_result['acc'], last_result['consistency'], str(date)
+        return float(last_result['wpm']), float(last_result['acc']), float(last_result['consistency']), str(date)
 
 
 def start(update: Update, conext: CallbackContext):
@@ -94,18 +94,25 @@ def downloader(update: Update, context: CallbackContext):
 
     user = update.effective_user
 
-    with open("custom/results.csv", 'wb') as f:
-        x = context.bot.get_file(update.message.document).download(out=f)
+    if db.is_user(chat_id=user.id):
+        db_user = db.users.get(doc_id=user.id)
+        with open("custom/results.csv", 'wb') as f:
+            x = context.bot.get_file(update.message.document).download(out=f)
 
-        wpm, acc, consistency, date = get_result()
+            wpm, acc, consistency, date = get_result()
 
-        r = db.add_result(chat_id=user.id, wpm=wpm, accuracy=acc, consistency=consistency, date=date)
 
-        if r:
-            update.message.reply_html(
-                text=f"Sizning natijangiz:\n\n<b>tezlik: </b>{wpm}\n<b>xatosizlik: </b>{acc}\n<b>doimiylik: </b>{consistency}\n\nIshtirokingiz uchun tashakkur!"
-            )
-        else:
-            update.message.reply_html(
-                text=f"Ikkinchi urunish qabul qilinmaydi."
-            )
+            r = db.add_result(chat_id=user.id, first_name=db_user['first_name'], last_name=db_user['last_name'], group=db_user['group'], wpm=wpm, accuracy=acc, consistency=consistency, date=date)
+
+            if r:
+                update.message.reply_html(
+                    text=f"Sizning natijangiz:\n\n<b>tezlik: </b>{wpm}\n<b>xatosizlik: </b>{acc}\n<b>doimiylik: </b>{consistency}\n\nIshtirokingiz uchun tashakkur!"
+                )
+            else:
+                update.message.reply_html(
+                    text=f"Ikkinchi urunish qabul qilinmaydi."
+                )
+    else:
+        update.message.reply_html(
+            text=f"Ro'yxatdan o'tmagansiz."
+        )
