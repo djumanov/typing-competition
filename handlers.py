@@ -4,6 +4,7 @@ from db import DB
 import csv
 from datetime import datetime
 import requests
+from io import StringIO
 
 
 db = DB('database.json')
@@ -105,20 +106,24 @@ def downloader(update: Update, context: CallbackContext):
     if db.is_user(chat_id=user.id):
         db_user = db.users.get(doc_id=user.id)
 
-        response = requests.get(context.bot.get_file(update.message.document))
+        response = requests.get(context.bot.get_file(update.message.document).file_path)
 
-        content = response.content.decode()
-        last_result = content.split()[1].split("|")
+        csv_content = response.content.decode()
 
-        wpm = float(last_result[2])
-        acc = float(last_result[3])
-        consistency = float(last_result[5])
+        csv_data = list(csv.DictReader(StringIO(csv_content), delimiter='|'))
 
-        print("-" * 100)
-        print(wpm, acc, consistency)
-        print("-" * 100)
+        results = list(dict_reader)
 
-        r = db.add_result(chat_id=user.id, first_name=db_user['first_name'], last_name=db_user['last_name'], group=db_user['group'], wpm=wpm, accuracy=acc, consistency=consistency, date=date)
+        if not results:
+            update.message.reply_html(
+                text=f"Siz boshqa file tashladingiz."
+            )
+
+        last_result = results[0]
+
+        date = datetime.fromtimestamp(int(last_result['timestamp']) // 100)
+
+        r = db.add_result(chat_id=user.id, first_name=db_user['first_name'], last_name=db_user['last_name'], group=db_user['group'], wpm=float(last_result['wpm']), accuracy=float(last_result['acc']), consistency=float(last_result['consistency']), date=str(date))
 
         if r:
             update.message.reply_html(
